@@ -1,0 +1,191 @@
+---
+---
+
+<section class="segments">
+	<div class="container">
+		<div class="segments__header" data-reveal="up">
+			<div class="segments__overline">
+				<span class="segments__overline-line"></span>
+				<span class="segments__overline-text">Kenelle</span>
+			</div>
+			<h2 class="segments__title">Palvelemme erilaisia kohteita</h2>
+			<p class="segments__subtitle">
+				Olipa kyseessä oma koti tai isompi kiinteistö — meillä on kokemus ja osaaminen.
+			</p>
+		</div>
+
+		<div class="segments__grid" data-stagger>
+			<div class="segment-card">
+				<div class="segment-card__number">01</div>
+				<h3 class="segment-card__title">Omakotitalot</h3>
+				<p class="segment-card__desc">
+					Ulkomaalaukset ja kattopinnoitukset omakotitaloihin.
+					Huolellista työtä joka kestää vuosia.
+				</p>
+				<a href="#yhteystiedot" class="segment-card__link">
+					Pyydä arvio
+					<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+				</a>
+			</div>
+
+			<div class="segment-card">
+				<div class="segment-card__number">02</div>
+				<h3 class="segment-card__title">Mökit ja vapaa-ajan asunnot</h3>
+				<p class="segment-card__desc">
+					Vapaa-ajan asuntojen maalaus- ja pinnoitustyöt
+					joustavalla aikataululla.
+				</p>
+				<a href="#yhteystiedot" class="segment-card__link">
+					Pyydä arvio
+					<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+				</a>
+			</div>
+
+			<div class="segment-card">
+				<div class="segment-card__number">03</div>
+				<h3 class="segment-card__title">Taloyhtiöt ja kiinteistöt</h3>
+				<p class="segment-card__desc">
+					Isommat kohteet hallitusti. Selkeä tarjous,
+					dokumentoitu työjälki, aikataulut jotka pitävät.
+				</p>
+				<a href="#yhteystiedot" class="segment-card__link">
+					Pyydä arvio
+					<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+				</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.segments {
+		position: relative;
+		background: var(--color-bg);
+		padding-block: var(--section-padding);
+	}
+
+	.segments__header {
+		position: relative;
+		margin-bottom: 3.5rem;
+		max-width: 620px;
+	}
+
+	.segments__overline {
+		display: flex;
+		align-items: center;
+		gap: 0.85rem;
+		margin-bottom: 1.25rem;
+	}
+
+	.segments__overline-line {
+		display: block;
+		width: 2.5rem;
+		height: 2px;
+		background: var(--color-accent);
+		border-radius: 1px;
+		transform: scaleX(0);
+		transform-origin: left;
+		transition: transform 1.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0.3s;
+	}
+
+	.segments__header.revealed .segments__overline-line {
+		transform: scaleX(1);
+	}
+
+	.segments__overline-text {
+		font-size: 0.8rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.14em;
+		color: var(--color-accent);
+	}
+
+	.segments__title {
+		font-size: clamp(2rem, 4.5vw, 3.25rem);
+		font-weight: 800;
+		letter-spacing: -0.035em;
+		line-height: 1.1;
+		color: var(--color-text);
+		margin-bottom: 1rem;
+	}
+
+	.segments__subtitle {
+		font-size: 1.1rem;
+		color: var(--color-text-muted);
+		line-height: 1.7;
+	}
+
+	.segments__grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1.15rem;
+		align-items: stretch;
+	}
+
+	.segment-card {
+		background: var(--color-surface);
+		padding: 2.5rem 2rem;
+		border: 1px solid var(--color-border);
+		border-radius: 4px;
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+	}
+
+	.segment-card:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 12px 28px rgba(16, 17, 20, 0.08);
+		border-color: var(--color-accent);
+	}
+
+	.segment-card__number {
+		font-family: var(--font-heading);
+		font-size: 0.8rem;
+		font-weight: 700;
+		color: var(--color-accent);
+		letter-spacing: 0.04em;
+		margin-bottom: 0.5rem;
+	}
+
+	.segment-card__title {
+		font-size: 1.25rem;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		color: var(--color-text);
+		line-height: 1.25;
+	}
+
+	.segment-card__desc {
+		font-size: 0.95rem;
+		color: var(--color-text-muted);
+		line-height: 1.7;
+		flex-grow: 1;
+	}
+
+	.segment-card__link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-size: 0.88rem;
+		font-weight: 600;
+		color: var(--color-accent);
+		margin-top: 0.5rem;
+		transition: gap 0.2s ease;
+	}
+
+	.segment-card__link:hover {
+		gap: 0.75rem;
+	}
+
+	@media (max-width: 900px) {
+		.segments__grid {
+			grid-template-columns: 1fr;
+			gap: 1rem;
+		}
+
+		.segment-card {
+			border-right: 1px solid var(--color-border);
+		}
+	}
+</style>

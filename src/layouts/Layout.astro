@@ -1,23 +1,260 @@
+---
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { title = 'Maalitykki — Maalauspalvelut', description = 'Ammattitaitoista maalausta koteihin ja yrityksille. Laadukas lopputulos, aina.' } = Astro.props;
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="fi">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
+		<meta name="description" content={description} />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+
+		<!-- Fonts: Inter for body, Manrope for headings -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+
+		<title>{title}</title>
 	</head>
 	<body>
 		<slot />
+
+		<script>
+			/* === Scroll Reveal with IntersectionObserver === */
+			const revealEls = document.querySelectorAll('[data-reveal], [data-stagger]');
+
+			const revealObserver = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('revealed');
+							revealObserver.unobserve(entry.target);
+						}
+					});
+				},
+				{ threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+			);
+
+			revealEls.forEach((el) => {
+				/* Hero content uses CSS animation, not observer — skip to prevent conflict */
+				if (!el.closest('.hero__content')) {
+					revealObserver.observe(el);
+				}
+			});
+
+			/* === Hero parallax — image moves slower than scroll === */
+			const heroImg = document.querySelector('.hero__img') as HTMLElement | null;
+			if (heroImg) {
+				let ticking = false;
+				window.addEventListener('scroll', () => {
+					if (!ticking) {
+						requestAnimationFrame(() => {
+							const scrollY = window.scrollY;
+							const heroH = window.innerHeight;
+							if (scrollY < heroH) {
+						heroImg.style.transform = `translateY(${scrollY * 0.15}px) scale(1.05)`;
+							}
+							ticking = false;
+						});
+						ticking = true;
+					}
+				});
+			}
+		</script>
 	</body>
 </html>
 
-<style>
-	html,
-	body {
+<style is:global>
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
 		margin: 0;
-		width: 100%;
-		height: 100%;
+		padding: 0;
+	}
+
+	:root {
+		/* Color palette */
+		--color-bg: #f2f2ef;
+		--color-bg-dark: #101114;
+		--color-text: #121318;
+		--color-text-muted: #525764;
+		--color-text-on-dark: #f7f7f5;
+		--color-accent: #b65a35;
+		--color-accent-hover: #9b4a2b;
+		--color-accent-light: rgba(182, 90, 53, 0.1);
+		--color-border: #dbd8d1;
+		--color-surface: #fdfdfb;
+		--color-surface-soft: #f7f6f2;
+
+		/* Typography */
+		--font-heading: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+		--font-body: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+
+		/* Effects */
+		--radius-md: 4px;
+		--radius-lg: 4px;
+		--shadow-soft: 0 14px 42px rgba(11, 13, 19, 0.08);
+		--shadow-strong: 0 24px 56px rgba(11, 13, 19, 0.16);
+
+		/* Spacing */
+		--section-padding: clamp(4rem, 10vw, 8rem);
+		--container-max: 1200px;
+		--container-padding: clamp(1.25rem, 4vw, 2.5rem);
+	}
+
+	html {
+		scroll-behavior: smooth;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	body {
+		font-family: var(--font-body);
+		color: var(--color-text);
+		background: var(--color-bg);
+		font-size: 1.0625rem;
+		line-height: 1.7;
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		font-family: var(--font-heading);
+		font-weight: 700;
+		line-height: 1.15;
+	}
+
+	img {
+		max-width: 100%;
+		height: auto;
+		display: block;
+	}
+
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.container {
+		max-width: var(--container-max);
+		margin-inline: auto;
+		padding-inline: var(--container-padding);
+	}
+
+	/* Sticky scroll-over: Segments stays pinned, Services slides over it */
+	.scroll-over-wrapper {
+		position: relative;
+		z-index: 1;
+	}
+
+	.scroll-over-wrapper > :first-child {
+		position: sticky;
+		top: 0;
+		z-index: 1;
+	}
+
+	/* ===== SCROLL REVEAL SYSTEM ===== */
+
+	/* Base hidden state for all reveal elements */
+	[data-reveal] {
+		opacity: 0;
+		will-change: transform, opacity;
+	}
+
+	/* Fade up (default) */
+	[data-reveal="up"] {
+		transform: translateY(22px);
+	}
+	[data-reveal="up"].revealed {
+		opacity: 1;
+		transform: translateY(0);
+		transition: opacity 1.2s cubic-bezier(0.215, 0.61, 0.355, 1), transform 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+	}
+
+	/* Fade in from left */
+	[data-reveal="left"] {
+		transform: translateX(-28px);
+	}
+	[data-reveal="left"].revealed {
+		opacity: 1;
+		transform: translateX(0);
+		transition: opacity 1.2s cubic-bezier(0.215, 0.61, 0.355, 1), transform 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+	}
+
+	/* Fade in from right */
+	[data-reveal="right"] {
+		transform: translateX(28px);
+	}
+	[data-reveal="right"].revealed {
+		opacity: 1;
+		transform: translateX(0);
+		transition: opacity 1.2s cubic-bezier(0.215, 0.61, 0.355, 1), transform 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+	}
+
+	/* Scale up */
+	[data-reveal="scale"] {
+		transform: scale(0.96);
+	}
+	[data-reveal="scale"].revealed {
+		opacity: 1;
+		transform: scale(1);
+		transition: opacity 1.1s cubic-bezier(0.215, 0.61, 0.355, 1), transform 1.1s cubic-bezier(0.215, 0.61, 0.355, 1);
+	}
+
+	/* Clip reveal (wipe from left) */
+	[data-reveal="clip"] {
+		clip-path: inset(0 100% 0 0);
+		opacity: 1;
+	}
+	[data-reveal="clip"].revealed {
+		clip-path: inset(0 0% 0 0);
+		transition: clip-path 1.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+	}
+
+	/* Stagger children - each child gets a successive delay */
+	[data-stagger] > * {
+		opacity: 0;
+		transform: translateY(18px);
+		will-change: transform, opacity;
+	}
+	[data-stagger].revealed > * {
+		opacity: 1;
+		transform: translateY(0);
+		transition: opacity 1s cubic-bezier(0.215, 0.61, 0.355, 1), transform 1s cubic-bezier(0.215, 0.61, 0.355, 1);
+	}
+	[data-stagger].revealed > *:nth-child(1) { transition-delay: 0s; }
+	[data-stagger].revealed > *:nth-child(2) { transition-delay: 0.15s; }
+	[data-stagger].revealed > *:nth-child(3) { transition-delay: 0.3s; }
+	[data-stagger].revealed > *:nth-child(4) { transition-delay: 0.45s; }
+	[data-stagger].revealed > *:nth-child(5) { transition-delay: 0.6s; }
+	[data-stagger].revealed > *:nth-child(6) { transition-delay: 0.75s; }
+
+	/* Line draw animation for overline lines */
+	[data-reveal="draw"] {
+		transform: scaleX(0);
+		transform-origin: left;
+		opacity: 1;
+	}
+	[data-reveal="draw"].revealed {
+		transform: scaleX(1);
+		transition: transform 1.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+	}
+
+	/* Respect prefers-reduced-motion */
+	@media (prefers-reduced-motion: reduce) {
+		[data-reveal],
+		[data-stagger] > * {
+			opacity: 1 !important;
+			transform: none !important;
+			clip-path: none !important;
+			transition: none !important;
+		}
 	}
 </style>
