@@ -40,7 +40,7 @@ const { title = 'Maalitykki — Maalauspalvelut', description = 'Ammattitaitoist
 						}
 					});
 				},
-				{ threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+				{ threshold: 0.08, rootMargin: '0px 0px -20px 0px' }
 			);
 
 			revealEls.forEach((el) => {
@@ -160,6 +160,12 @@ const { title = 'Maalitykki — Maalauspalvelut', description = 'Ammattitaitoist
 		z-index: 1;
 	}
 
+	@media (max-width: 520px) {
+		.scroll-over-wrapper > :first-child {
+			position: relative;
+		}
+	}
+
 	/* ===== SCROLL REVEAL SYSTEM ===== */
 
 	/* Base hidden state for all reveal elements */
@@ -170,32 +176,65 @@ const { title = 'Maalitykki — Maalauspalvelut', description = 'Ammattitaitoist
 
 	/* Fade up (default) */
 	[data-reveal="up"] {
-		transform: translateY(22px);
+		transform: translateY(16px);
 	}
 	[data-reveal="up"].revealed {
 		opacity: 1;
 		transform: translateY(0);
-		transition: opacity 1.2s cubic-bezier(0.215, 0.61, 0.355, 1), transform 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+		transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
 	/* Fade in from left */
 	[data-reveal="left"] {
-		transform: translateX(-28px);
+		transform: translateX(-20px);
 	}
 	[data-reveal="left"].revealed {
 		opacity: 1;
 		transform: translateX(0);
-		transition: opacity 1.2s cubic-bezier(0.215, 0.61, 0.355, 1), transform 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+		transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
 	/* Fade in from right */
 	[data-reveal="right"] {
-		transform: translateX(28px);
+		transform: translateX(20px);
 	}
 	[data-reveal="right"].revealed {
 		opacity: 1;
 		transform: translateX(0);
-		transition: opacity 1.2s cubic-bezier(0.215, 0.61, 0.355, 1), transform 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+		transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	/* ===== STAGGER SYSTEM ===== */
+	[data-stagger] > * {
+		opacity: 0;
+		transform: translateY(16px);
+	}
+	[data-stagger].revealed > * {
+		animation: stagger-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+	}
+	[data-stagger].revealed > *:nth-child(1) { animation-delay: 0s; }
+	[data-stagger].revealed > *:nth-child(2) { animation-delay: 0.07s; }
+	[data-stagger].revealed > *:nth-child(3) { animation-delay: 0.14s; }
+	[data-stagger].revealed > *:nth-child(4) { animation-delay: 0.21s; }
+	[data-stagger].revealed > *:nth-child(5) { animation-delay: 0.28s; }
+	[data-stagger].revealed > *:nth-child(6) { animation-delay: 0.35s; }
+
+	@keyframes stagger-in {
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	/* ===== REDUCED MOTION ===== */
+	@media (prefers-reduced-motion: reduce) {
+		[data-reveal],
+		[data-stagger] > * {
+			opacity: 1 !important;
+			transform: none !important;
+			transition: none !important;
+			animation: none !important;
+		}
 	}
 
 	/* Scale up */

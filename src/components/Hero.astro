@@ -2,31 +2,23 @@
 ---
 
 <section class="hero">
-	<img src="/hero2.png" alt="Ammattimaalari työssään" class="hero__img" />
+	<img src="/hero3.png" alt="Ammattimaalari työssään" class="hero__img" />
 	<div class="hero__overlay"></div>
 
 	<div class="container hero__container">
 		<div class="hero__content">
 			<div class="hero__overline" data-reveal="up">
-				<span class="hero__badge">Maalausliike Maalitykki</span>
 				<span class="hero__overline-text">Pohjatyöstä viimeistelyyn</span>
 			</div>
 
 			<h1 class="hero__title" data-reveal="up">
-				Viimeistelty ulkomaalaus,
-				<em>johon voi luottaa.</em>
+				Maalaus, joka näkyy ja kestää.</em>
 			</h1>
 
 			<p class="hero__subtitle" data-reveal="up">
 				Toteutamme ulkomaalaukset ja kattopinnoitukset selkeällä prosessilla,
-				yhdellä vastuutiimilla ja aidosti sovitulla aikataululla.
+				yhdellä vastuutiimillä ja sovitulla aikataululla.
 			</p>
-
-			<div class="hero__trustline" data-reveal="up" aria-label="Laatulupaukset">
-				<span>Aina nimetty yhteyshenkilö kohteelle</span>
-				<span>Dokumentoitu työ ja valitut materiaalit</span>
-				<span>Työmaasiisteys ja suojaus osana palvelua</span>
-			</div>
 
 			<div class="hero__actions" data-reveal="up">
 				<a href="#yhteystiedot" class="hero__cta">
@@ -47,10 +39,10 @@
 	/* ===== HERO ===== */
 	.hero {
 		position: relative;
-		min-height: 100vh;
+		min-height: 100svh;
 		display: grid;
-		align-items: end;
-		padding-top: 80px; /* navbar offset */
+		align-items: center;
+		padding-top: 72px; /* navbar offset */
 		overflow: hidden;
 	}
 
@@ -82,7 +74,6 @@
 		width: 100%;
 		margin-inline: auto;
 		padding-inline: var(--container-padding);
-		padding-bottom: clamp(4rem, 7vw, 5.5rem);
 		display: block;
 	}
 
@@ -177,18 +168,20 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 0.6rem;
-		padding: 1rem 2.5rem;
+		padding: 1.1rem 2.8rem;
 		background: var(--color-accent);
 		color: white;
-		font-size: 1rem;
-		font-weight: 600;
+		font-size: 1.05rem;
+		font-weight: 700;
 		border-radius: 4px;
-		transition: transform 0.15s ease, background 0.2s ease;
+		box-shadow: 0 4px 20px rgba(182, 90, 53, 0.35);
+		transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
 	}
 
 	.hero__cta:hover {
 		transform: translateY(-2px);
 		background: var(--color-accent-hover);
+		box-shadow: 0 8px 28px rgba(182, 90, 53, 0.45);
 	}
 
 	.hero__cta svg {
@@ -215,13 +208,13 @@
 
 	/* Auto-reveal hero content on load */
 	.hero__content [data-reveal] {
-		animation: hero-reveal 1.4s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+		animation: hero-reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 	}
-	.hero__content [data-reveal]:nth-child(1) { animation-delay: 0.3s; }
-	.hero__content [data-reveal]:nth-child(2) { animation-delay: 0.55s; }
-	.hero__content [data-reveal]:nth-child(3) { animation-delay: 0.8s; }
-	.hero__content [data-reveal]:nth-child(4) { animation-delay: 1s; }
-	.hero__content [data-reveal]:nth-child(5) { animation-delay: 1.2s; }
+	.hero__content [data-reveal]:nth-child(1) { animation-delay: 0.15s; }
+	.hero__content [data-reveal]:nth-child(2) { animation-delay: 0.25s; }
+	.hero__content [data-reveal]:nth-child(3) { animation-delay: 0.35s; }
+	.hero__content [data-reveal]:nth-child(4) { animation-delay: 0.45s; }
+	.hero__content [data-reveal]:nth-child(5) { animation-delay: 0.55s; }
 
 	@keyframes hero-reveal {
 		to {
@@ -240,7 +233,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		animation: hint-fade-in 1.2s 2s ease both;
+		animation: hint-fade-in 0.6s 1s ease both;
 	}
 
 	.hero__scroll-line {
@@ -279,11 +272,16 @@
 
 	@media (max-width: 520px) {
 		.hero {
-			min-height: 88vh;
+			min-height: 100svh;
 		}
 
 		.hero__title {
 			max-width: 100%;
+			font-size: clamp(2rem, 8vw, 2.55rem);
+		}
+
+		.hero__subtitle {
+			font-size: 0.95rem;
 		}
 
 		.hero__trustline {
@@ -297,8 +295,18 @@
 
 		.hero__actions {
 			flex-direction: column;
-			align-items: flex-start;
+			align-items: stretch;
+			width: 100%;
 			gap: 1rem;
+		}
+
+		.hero__cta {
+			justify-content: center;
+			width: 100%;
+		}
+
+		.hero__link {
+			text-align: center;
 		}
 
 		.promises__item {

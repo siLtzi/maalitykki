@@ -1,0 +1,162 @@
+---
+const items = [
+	{ alt: 'Omakotitalo, Oulu', label: 'Omakotitalo — Oulu' },
+	{ alt: 'Rivitalo, Kempele', label: 'Rivitalo — Kempele' },
+	{ alt: 'Mökki, Muhos', label: 'Mökki — Muhos' },
+	{ alt: 'Taloyhtiö, Oulu', label: 'Taloyhtiö — Oulu' },
+	{ alt: 'Omakotitalo, Kiiminki', label: 'Omakotitalo — Kiiminki' },
+	{ alt: 'Vapaa-ajan asunto, Ii', label: 'Vapaa-ajan asunto — Ii' },
+];
+---
+
+<section class="refs" id="tyonaytteet">
+	<div class="container refs__header" data-reveal="up">
+		<div class="refs__overline">
+			<span class="refs__overline-line"></span>
+			<span class="refs__overline-text">Työnäytteet</span>
+		</div>
+		<h2 class="refs__title">Töitämme</h2>
+	</div>
+
+	<div class="refs__marquee" aria-label="Referenssikuvia">
+		<div class="refs__track">
+			{/* Duplicate items for seamless loop */}
+			{[...items, ...items].map((item) => (
+				<div class="refs__item">
+					<div class="refs__img-placeholder">
+						<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+							<rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+							<circle cx="8.5" cy="8.5" r="1.5"/>
+							<polyline points="21 15 16 10 5 21"/>
+						</svg>
+					</div>
+					<span class="refs__label">{item.label}</span>
+				</div>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.refs {
+		background: var(--color-bg);
+		padding-top: var(--section-padding);
+		padding-bottom: var(--section-padding);
+		overflow: hidden;
+	}
+
+	.refs__header {
+		margin-bottom: 2.5rem;
+	}
+
+	.refs__overline {
+		display: flex;
+		align-items: center;
+		gap: 0.85rem;
+		margin-bottom: 1.25rem;
+	}
+
+	.refs__overline-line {
+		display: block;
+		width: 2.5rem;
+		height: 2px;
+		background: var(--color-accent);
+		border-radius: 1px;
+		transform: scaleX(0);
+		transform-origin: left;
+		transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+	}
+
+	.refs__header.revealed .refs__overline-line {
+		transform: scaleX(1);
+	}
+
+	.refs__overline-text {
+		font-size: 0.8rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.14em;
+		color: var(--color-accent);
+	}
+
+	.refs__title {
+		font-size: clamp(2rem, 4.5vw, 3.25rem);
+		font-weight: 800;
+		letter-spacing: -0.035em;
+		line-height: 1.1;
+		color: var(--color-text);
+	}
+
+	.refs__marquee {
+		position: relative;
+		width: 100%;
+		mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+		-webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+	}
+
+	.refs__track {
+		display: flex;
+		gap: 1.25rem;
+		width: max-content;
+	}
+
+	.refs__item {
+		flex-shrink: 0;
+		width: 320px;
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+
+	.refs__img-placeholder {
+		width: 100%;
+		aspect-ratio: 4 / 3;
+		background: var(--color-surface-soft);
+		border: 1px dashed var(--color-border);
+		border-radius: 4px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--color-text-muted);
+		opacity: 0.5;
+	}
+
+	.refs__label {
+		font-size: 0.85rem;
+		font-weight: 600;
+		color: var(--color-text-muted);
+		letter-spacing: 0.01em;
+	}
+
+	@media (max-width: 520px) {
+		.refs__item {
+			width: 260px;
+		}
+	}
+</style>
+
+<script>
+	import gsap from 'gsap';
+
+	const track = document.querySelector('.refs__track') as HTMLElement | null;
+	if (track) {
+		const items = track.children;
+		const half = items.length / 2;
+		// Measure the width of the first half (original items) + gap
+		let totalWidth = 0;
+		for (let i = 0; i < half; i++) {
+			const el = items[i] as HTMLElement;
+			totalWidth += el.offsetWidth;
+		}
+		// Add gaps (gap is 1.25rem ≈ 20px, count = half gaps between half items)
+		const gap = parseFloat(getComputedStyle(track).gap) || 20;
+		totalWidth += gap * half;
+
+		gsap.to(track, {
+			x: -totalWidth,
+			duration: totalWidth / 40, // ~40px/s — smooth and leisurely
+			ease: 'none',
+			repeat: -1,
+		});
+	}
+</script>
